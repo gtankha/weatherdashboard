@@ -2,13 +2,14 @@
  var formCityEl = document.querySelector("#citys");
  var forecastNowEl = document.querySelector("#forecastNow");
  var appId = "e4817a0deb146d8c3d95dc704d60b57c";
+ $(".5day").hide();
  var getSearchCity = function (event) {
 
     event.preventDefault();
     // get value from input element .. the city name
     var searchString = formCityEl.value.trim();
 
-    getWeatherValues(searchString, "");
+    getWeatherValues(searchString);
   
     
  }
@@ -17,6 +18,7 @@ var getWeatherValues = function (city) {
  // format the weather map api url
  
  var apiUrl = ("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid="+ appId + "&units=imperial");
+ var apiUrlfcst = ("http://api.openweathermap.org/data/2.5/forecast?q="+ city +"&appid="+ appId + "&units=imperial");
 // }
  fetch(apiUrl)
  .then(function(response) {
@@ -34,34 +36,79 @@ var getWeatherValues = function (city) {
    alert("Unable to connect to Weather Map");
  });
 
+ fetch(apiUrlfcst)
+ .then(function(response2) {
+   // request was successful
+   if (response2.ok) {
+     response2.json().then(function(data2) {
+       displayWeatherForecast (data2);
+     });
+   } else {
+     alert("Error: " + response2.statusText);
+   }
+ })
+ .catch(function(error) {
+   // Notice this `.catch()` getting chained onto the end of the `.then()` method
+   alert("Unable to connect to Weather Map");
+ });
+
+}
+
+var displayWeatherForecast = function(wfcast) {
+  
+  //$(".5day").prepend("<h2> 5 Day Forecast </h2>");
+  $(".5day").show();
+
+  for (i=1; i<6 ; i++) {
+    $("#forecast"+i.toString()).empty();
+  }
+
+ for (i=1; i<6 ; i++) {
+  var date = wfcast.list[(8*(i-1))+1].dt; 
+  console.log(date);
+  date = parseInt (date);
+  date = moment.unix(date).format('L');
+  var weathericon = wfcast.list[(8*(i-1))+1].weather[0].icon ;
+  var iconurl = "http://openweathermap.org/img/wn/" + weathericon + "@2x.png";
+  console.log(iconurl);
+   $("#forecast"+i.toString()).append('<p> <strong>'+ date + '</strong> </p>');
+   $("#forecast"+i.toString()).append('<img class = "w-75" id="weathericon2" src="' +iconurl+'" alt="weathericon">');
+   $("#forecast"+i.toString()).append('<p>'+ wfcast.list[(8*(i-1))+1].main.temp + 'F </p>');
+   $("#forecast"+i.toString()).append('<p>'+ wfcast.list[(8*(i-1))+1].main.humidity + '% </p>');
+}
+
+}
+
  var displayWeather = function (weather){
 
     var date = weather.lastupdate;
     var weathericon = weather.weather[0].icon;
     var iconurl = "http://openweathermap.org/img/wn/" + weathericon + "@2x.png";
     var datefrmt = moment(date).format('L');
-    console.log(weather);
-  
-    //$("#forecastNow").append("<h1> how are you </h1>");
- 
-    $("#forecastNow").append('<h2>' + weather.name + " (" + datefrmt + ")" + '<img id="weathericon" src='+iconurl+'alt="weathericon"> </h2>');
+    
+    $("#forecastNow").empty();
+    
+    
+    $("#forecastNow").append('<h2 class = "d-flex align-items-center">' + weather.name + " (" + datefrmt + ")" + '<img id="weathericon" src=" ' +iconurl+'" alt="weathericon"> </h2>');
     $("#forecastNow").append(' <p> Temperature: ' + weather.main.temp + 'F </p>' );
     $("#forecastNow").append(' <p> Humidity: ' + weather.main.humidity + '% </p>' );
     $("#forecastNow").append(' <p> Wind Speed: ' + weather.wind.speed + 'MPH </p>' );
     var lat = weather.coord.lat;
     var lon = weather.coord.lon;
-   
     var apiUrl2 = ("http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid="+appId);
-    console.log(apiUrl2);
     // }
      fetch(apiUrl2)
      .then(function(response) {
        // request was successful
        if (response.ok) {
          response.json().then(function(data2) {
-           console.log (data2);
+           console.log (data2.value);
+          if (data2.value > 8) {var color = "bg-danger";}
+          if (data2.value > 4 && data2.value < 8) {var color = "bg-warning";}
+          if (data2.value > 0 && data2.value < 4) {var color = "bg-success";}
+           $("#forecastNow").append('<p>  UV Index: <span class = "'+color+' text-light">' + data2.value + '</span> </p>' );
          });
-       } else {
+       } else { 
          alert("Error: " + response.statusText);
        }
      })
@@ -69,40 +116,16 @@ var getWeatherValues = function (city) {
        // Notice this `.catch()` getting chained onto the end of the `.then()` method
        alert("Unable to connect to Weather Map");
      });
-    
+   
     
  }
 
-}
+ 
+
+ 
 
 
 
 $("#citySearch").submit(getSearchCity);
 
 
-
-
-
- 
- /* 
- // format the github api url
- var apiUrl = "https://api.github.com/users/" + user + "/repos";
- 
- // make a request to the url
- fetch(apiUrl)
- .then(function(response) {
-   // request was successful
-   if (response.ok) {
-     response.json().then(function(data) {
-       displayRepos(data, user);
-     });
-   } else {
-     alert("Error: " + response.statusText);
-   }
- })
- .catch(function(error) {
-   // Notice this `.catch()` getting chained onto the end of the `.then()` method
-   alert("Unable to connect to GitHub");
- });
-
- */
