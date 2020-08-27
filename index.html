@@ -17,13 +17,101 @@
 
     <header>
 
+        <h1 class="bg-dark text-light text-center"> 
+            <span> Weather Dashboard </span>
+        </h1>
 
     </header>
 
-    <main>
+    <main class="row">
+
+    <div class="col-4 bg-light card">
+        <div >
+            <form id="citySearch" class="card-body">
+                <label class="form-label" for="citys">Search for a City:</label> </br>
+                <input name="citys" id="citys" type="text" autofocus="true" class="form-input" />
+                <button type="submit" class="btn bg-primary d-inline-flex"><span class="oi oi-magnifying-glass mgglass"></span> </button>
+              </form>
+        </div>
+        <div >
+
+            <ul class = "list-group card-body">
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+                    <li class = "list-group-item"> a </li>
+
+
+            </ul>
+        </div>  
+
+
+    </div>
+
+        <div class="col-8">
+
+            <div class="forecastNow col-8" id = "forecastNow"> 
+                
+            
+
+            </div>
+          <div class ="5day">
+            <h2>  5 Day Forecast </h2> 
+                
+            <div class ="col-8 d-inline-flex justify-content-around">
+          
+                <div class="card bg-primary">
+                <div class="card-body" id="forecast1">
+                 <span> abc </span>
+                 <span> abc </span>
+                    
+                </div>
+              </div>
+
+              <div class="card bg-primary"> 
+                <div class="card-body" id="forecast2">
+                 <span> abc </span>
+                 <span> abc </span>
+            
+                </div>
+              </div>
+
+              <div class="card bg-primary">
+                <div class="card-body" id="forecast3">
+                 <span> abc </span>
+                 <span> abc </span>
+            
+                </div>
+              </div>
+
+              <div class="card bg-primary">
+                <div class="card-body" id="forecast4">
+                 <span> abc </span>
+                 <span> abc </span>
+            
+                </div>
+              </div>
+
+              <div class="card bg-primary"> 
+                <div class="card-body" id="forecast5">
+                 <span> abc </span>
+                 <span> abc </span>
+            
+                </div>
+              </div>
+
+             </div>
+        
+        </div>
+    </div>
 
     </main>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 
