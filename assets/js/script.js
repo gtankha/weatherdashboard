@@ -138,8 +138,8 @@ var displayWeatherForecast = function(wfcast) {
   // display the forecast parameters
    $("#forecast"+i.toString()).append('<p> <strong>'+ date + '</strong> </p>');
    $("#forecast"+i.toString()).append('<img class = "w-75" id="weathericon2" src="' +iconurl+'" alt="weathericon">');
-   $("#forecast"+i.toString()).append('<p>'+ wfcast.list[(8*(i-1))+1].main.temp + 'F </p>');
-   $("#forecast"+i.toString()).append('<p>'+ wfcast.list[(8*(i-1))+1].main.humidity + '% </p>');
+   $("#forecast"+i.toString()).append('<p> Temp: '+ wfcast.list[(8*(i-1))+1].main.temp + 'F </p>');
+   $("#forecast"+i.toString()).append('<p> Humidity: '+ wfcast.list[(8*(i-1))+1].main.humidity + '% </p>');
 }
 
 }
