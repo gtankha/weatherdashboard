@@ -77,20 +77,19 @@ var getWeatherValues = function (citys) {
 
 var setSearchHistory = function (search) {
 
-  console.log(city);
+ 
   if (a > 7) { a = 0};
   if (city) {
     
-    console.log("a:  " + a);  
+
 
     if (city[a]) { 
 
       var b = document.getElementById("0");
-      console.log ("b  " + b);
+    
       
      var val = (document.getElementById(JSON.stringify(a)));
-     console.log ("val   "+ val);
-     console.log ("ssss v " + val.textContent);
+    
      val.textContent = search;
      city[a] = search;
 
@@ -112,7 +111,7 @@ var setSearchHistory = function (search) {
   }
       
     
-  console.log (city);
+  
   a++;
   localStorage.setItem("city",JSON.stringify(city));
 
@@ -129,7 +128,6 @@ var displayWeatherForecast = function(wfcast) {
 
  for (i=1; i<6 ; i++) {
   var date = wfcast.list[(8*(i-1))+1].dt; 
-  console.log(date);
   date = parseInt (date);
   date = moment.unix(date).format('L');
   var weathericon = wfcast.list[(8*(i-1))+1].weather[0].icon ;
@@ -166,7 +164,6 @@ var displayWeatherForecast = function(wfcast) {
        // request was successful
        if (response.ok) {
          response.json().then(function(data2) {
-           console.log (data2.value);
           if (data2.value > 8) {var color = "bg-danger";}
           if (data2.value > 4 && data2.value < 8) {var color = "bg-warning";}
           if (data2.value > 0 && data2.value < 4) {var color = "bg-success";}
@@ -187,8 +184,10 @@ var displayWeatherForecast = function(wfcast) {
 
 $("#citySearch").submit(getSearchCity);
 
-$(".history").click(function() {
-var hist = this.textContent;
+$(".searchHistory").click(function(e) {
+var hist = e.target.id;
+hist = document.getElementById(hist);
+hist = hist.textContent;
 getWeatherValues(hist);
 });
 
