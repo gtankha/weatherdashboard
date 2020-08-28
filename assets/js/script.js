@@ -2,7 +2,25 @@
  var formCityEl = document.querySelector("#citys");
  var forecastNowEl = document.querySelector("#forecastNow");
  var appId = "e4817a0deb146d8c3d95dc704d60b57c";
+ var a = 0;
+ var city = ["","","","","","","",""];
  $(".5day").hide();
+
+ // initialize search history
+if (city) { city1 = JSON.parse(localStorage.getItem("city")); }
+if (city1) {
+  for (i = 0; i<city.length; i++) {
+      if (city1[i]) {
+        $(".searchHistory").append('<li class = "history list-group-item" id ="'+JSON.stringify(i)+'">'+city1[i]+'</li>');
+        city[i] = city1[i];
+        a=i+1;
+          }
+          else {
+            city[i] = "";
+          }
+      }
+};
+
  var getSearchCity = function (event) {
 
     event.preventDefault();
@@ -10,22 +28,25 @@
     var searchString = formCityEl.value.trim();
 
     getWeatherValues(searchString);
-  
-    
+
+
  }
  
-var getWeatherValues = function (city) {
+var getWeatherValues = function (citys) {
  // format the weather map api url
  
- var apiUrl = ("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid="+ appId + "&units=imperial");
- var apiUrlfcst = ("http://api.openweathermap.org/data/2.5/forecast?q="+ city +"&appid="+ appId + "&units=imperial");
+ var apiUrl = ("http://api.openweathermap.org/data/2.5/weather?q=" + citys + "&appid="+ appId + "&units=imperial");
+ var apiUrlfcst = ("http://api.openweathermap.org/data/2.5/forecast?q="+ citys +"&appid="+ appId + "&units=imperial");
 // }
  fetch(apiUrl)
  .then(function(response) {
    // request was successful
    if (response.ok) {
      response.json().then(function(data) {
-       displayWeather (data);
+       displayWeather (data); 
+      if (!(city.includes(citys))) {
+       setSearchHistory(citys);
+      }
      });
    } else {
      alert("Error: " + response.statusText);
@@ -54,9 +75,52 @@ var getWeatherValues = function (city) {
 
 }
 
+var setSearchHistory = function (search) {
+
+  console.log(city);
+  if (a > 7) { a = 0};
+  if (city) {
+    
+    console.log("a:  " + a);  
+
+    if (city[a]) { 
+
+      var b = document.getElementById("0");
+      console.log ("b  " + b);
+      
+     var val = (document.getElementById(JSON.stringify(a)));
+     console.log ("val   "+ val);
+     console.log ("ssss v " + val.textContent);
+     val.textContent = search;
+     city[a] = search;
+
+    }
+   else { 
+    
+    city[a] = search;
+    $(".searchHistory").append('<li class = "history list-group-item" id ="'+JSON.stringify(a)+'">'+city[a]+'</li>');
+    
+
+    }
+    
+  }
+  else {
+    city = ["","","","","","",""];
+    city[a] = search;
+    $(".searchHistory").append('<li class = "history list-group-item" id ="'+JSON.stringify(a)+'">'+city[a]+'</li>');
+   
+  }
+      
+    
+  console.log (city);
+  a++;
+  localStorage.setItem("city",JSON.stringify(city));
+
+}
+
 var displayWeatherForecast = function(wfcast) {
   
-  //$(".5day").prepend("<h2> 5 Day Forecast </h2>");
+  
   $(".5day").show();
 
   for (i=1; i<6 ; i++) {
@@ -70,7 +134,7 @@ var displayWeatherForecast = function(wfcast) {
   date = moment.unix(date).format('L');
   var weathericon = wfcast.list[(8*(i-1))+1].weather[0].icon ;
   var iconurl = "http://openweathermap.org/img/wn/" + weathericon + "@2x.png";
-  console.log(iconurl);
+  
    $("#forecast"+i.toString()).append('<p> <strong>'+ date + '</strong> </p>');
    $("#forecast"+i.toString()).append('<img class = "w-75" id="weathericon2" src="' +iconurl+'" alt="weathericon">');
    $("#forecast"+i.toString()).append('<p>'+ wfcast.list[(8*(i-1))+1].main.temp + 'F </p>');
@@ -120,12 +184,12 @@ var displayWeatherForecast = function(wfcast) {
     
  }
 
- 
-
- 
-
-
 
 $("#citySearch").submit(getSearchCity);
+
+$(".history").click(function() {
+var hist = this.textContent;
+getWeatherValues(hist);
+});
 
 
