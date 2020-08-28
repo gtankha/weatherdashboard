@@ -10,5 +10,6 @@
 ### Limited search history to 8 cities/searches. Consequent searches overwrite the existing search history
 
 ### Screenshot: https://user-images.githubusercontent.com/46304828/91618814-48fde900-e940-11ea-9445-89059e7e60c2.png
-### URL: 
+### URL: https://gtankha.github.io/weatherdashboard/
+
 
