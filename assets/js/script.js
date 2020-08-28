@@ -51,6 +51,22 @@ var getWeatherValues = function (citys) {
        // set search history  
        setSearchHistory(citys);
       }
+      fetch(apiUrlfcst)
+      .then(function(response2) {
+        // request was successful
+        if (response2.ok) {
+          response2.json().then(function(data2) {
+            // display the 5 day forecast
+            displayWeatherForecast (data2);
+          });
+        } else {
+          alert("Error: " + response2.statusText);
+        }
+      })
+      .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        alert("Unable to connect to Weather Map");
+      });
      });
    } else {
      alert("Error: " + response.statusText);
@@ -61,22 +77,7 @@ var getWeatherValues = function (citys) {
    alert("Unable to connect to Weather Map");
  });
 
- fetch(apiUrlfcst)
- .then(function(response2) {
-   // request was successful
-   if (response2.ok) {
-     response2.json().then(function(data2) {
-       // display the 5 day forecast
-       displayWeatherForecast (data2);
-     });
-   } else {
-     alert("Error: " + response2.statusText);
-   }
- })
- .catch(function(error) {
-   // Notice this `.catch()` getting chained onto the end of the `.then()` method
-   alert("Unable to connect to Weather Map");
- });
+
 
 }
 
