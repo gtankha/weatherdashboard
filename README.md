@@ -9,7 +9,7 @@
 ### There is an event listener for click on any search history city
 ### Limited search history to 8 cities/searches. Consequent searches overwrite the existing search history
 
-### Screenshot: https://user-images.githubusercontent.com/46304828/91618814-48fde900-e940-11ea-9445-89059e7e60c2.png
+### Screenshot: https://user-images.githubusercontent.com/46304828/91620818-e6a7e700-e945-11ea-9732-ddab5fa465a7.png
 ### URL: https://gtankha.github.io/weatherdashboard/
 
 
